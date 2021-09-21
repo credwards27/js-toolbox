@@ -1,0 +1,40 @@
+{
+  "name": "@credwards27/js-tools",
+  "version": "0.0.1",
+  "description": "A collection of JavaScript utils, classes, helpers, etc.",
+  "type": "module",
+  "exports": {
+    "./*": "./src/*.js"
+  },
+  "imports": {
+    "#lib/*": "./src/*.js"
+  },
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/credwards27/js-toolbox.git"
+  },
+  "keywords": [
+    "javascript",
+    "js",
+    "tool",
+    "tools",
+    "utils",
+    "util",
+    "utilities",
+    "utility",
+    "toolkit",
+    "kit",
+    "toolbox",
+    "helpers",
+    "helper"
+  ],
+  "author": "credwards27",
+  "license": "MIT",
+  "bugs": {
+    "url": "https://github.com/credwards27/js-toolbox/issues"
+  },
+  "homepage": "https://github.com/credwards27/js-toolbox#readme"
+}
