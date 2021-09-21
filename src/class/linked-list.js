@@ -34,6 +34,9 @@ class LinkedList {
     
     /* Constructor for LinkedList.
         
+        NOTE: Use LinkedList.fromArray() instead if initializing a list with a
+        very large number of items.
+        
         ...items - Optional initial items to add to the list.
     */
     constructor(...items) {
@@ -61,6 +64,22 @@ class LinkedList {
     //
     // STATIC METHODS
     //
+    
+    /* Creates a new LinkedList object from an array of items.
+        
+        items - Array of items to add to the list.
+        
+        Returns a LinkedList object containing the specified items.
+    */
+    static fromArray(items) {
+        let list = new LinkedList();
+        
+        for (let i=0, l=items.length; i<l; ++i) {
+            list.push(items[i]);
+        }
+        
+        return list;
+    }
     
     /* Checks whether or not a value is a Node object.
         
