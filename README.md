@@ -1,3 +1,3 @@
 # js-toolbox
 
-A collection of JavaScript utils, classes, helpers, etc.
+A collection of JavaScript utilities, classes, helpers, etc.
