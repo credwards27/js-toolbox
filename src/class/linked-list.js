@@ -672,7 +672,7 @@ class Node {
         
         type - Error type.
     */
-    static error(type) {
+    static throw(type) {
         let msg = "Unknown Node error";
         
         switch (type) {
