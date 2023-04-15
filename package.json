@@ -4,6 +4,7 @@
   "description": "A collection of JavaScript utils, classes, helpers, etc.",
   "type": "module",
   "exports": {
+    ".": "./src/index.js",
     "./*": "./src/*.js"
   },
   "imports": {
