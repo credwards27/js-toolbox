@@ -563,6 +563,9 @@ class LinkedList {
     /* Returns the list data as an array, applying an optional callback to each
         item in the list.
         
+        NOTE: When the 'cb' argument is provided, this method behaves similarly
+        to Array.prototype.map().
+        
         cb - Optional callback function to run on each item in the list. If
             omitted, all items will be included as-is.
             
