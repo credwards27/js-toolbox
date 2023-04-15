@@ -187,7 +187,7 @@ class LinkedList {
         object if returnNode is true.
     */
     first(returnNode) {
-        let node = this[this._start][this._next];
+        let node = this.start.next;
         return returnNode ? node : node.data;
     }
     
@@ -200,7 +200,7 @@ class LinkedList {
         object if returnNode is true.
     */
     last(returnNode) {
-        let node = this[this._end][this._prev];
+        let node = this.end.prev;
         return returnNode ? node : node.data;
     }
     
@@ -304,7 +304,7 @@ class LinkedList {
         let node;
         
         for (let i=data.length-1; i>=0; --i) {
-            node = this.insert(data[i], this[this._start]);
+            node = this.insert(data[i], this.start);
         }
         
         return node;
@@ -378,6 +378,12 @@ class LinkedList {
             case node === this._tail:
                 throw new Error("Cannot insert tail node.");
                 return;
+        }
+        
+        // Flip next/prev pointer properties if the list is currently reversed
+        if (this.reversed) {
+            next = this._prev;
+            prev = this._next;
         }
         
         // Attach node pointers
@@ -498,12 +504,12 @@ class LinkedList {
     each(cb) {
         let curr = this.first(true);
         
-        while (curr !== this[this._end]) {
+        while (curr !== this.end) {
             if (false === cb.call(this, curr.data, curr)) {
                 break;
             }
             
-            curr = curr[this._next];
+            curr = curr.next;
         }
         
         return this;
@@ -519,12 +525,12 @@ class LinkedList {
     eachReverse(cb) {
         let curr = this.last(true);
         
-        while (curr !== this[this._start]) {
+        while (curr !== this.start) {
             if (false === cb.call(this, curr.data, curr)) {
                 break;
             }
             
-            curr = curr[this._prev];
+            curr = curr.prev;
         }
         
         return this;
@@ -739,7 +745,7 @@ class Node {
         Returns the next node attached to this one.
     */
     get next() {
-        return this._next;
+        return this[this.nextProp];
     }
     
     /* Setter for the next node.
@@ -747,7 +753,7 @@ class Node {
         node - New node to attach to the 'next' position.
     */
     set next(node) {
-        this._next = Node.sanitizeNode(node, true);
+        this[this.nextProp] = Node.sanitizeNode(node, true);
     }
     
     /* Getter for the previous node.
@@ -755,7 +761,7 @@ class Node {
         Returns the previous node attached to this one.
     */
     get prev() {
-        return this._prev;
+        return this[this.prevProp];
     }
     
     /* Setter for the previous node.
@@ -763,7 +769,21 @@ class Node {
         node - New node to attach to the 'previous' position.
     */
     set prev(node) {
-        this._prev = Node.sanitizeNode(node, true);
+        this[this.prevProp] = Node.sanitizeNode(node, true);
+    }
+    
+    /* Gets the 'next' property for the node, respecting whether or not the
+        owner list is reversed.
+    */
+    get nextProp() {
+        return `_${this.list.next}`;
+    }
+    
+    /* Gets the 'prev' property for the node, respecting whether or not the
+        owner list is reversed.
+    */
+    get prevProp() {
+        return `_${this.list.prev}`;
     }
     
     /* Moves the node to a new list.
