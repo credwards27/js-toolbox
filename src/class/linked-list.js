@@ -536,6 +536,58 @@ class LinkedList {
         return this;
     }
     
+    /* Creates a new LinkedList with the results of a given callback function
+        called on each item in the list. This is essentially the LinkedList
+        equivalent of Array.map().
+        
+        NOTE: If the callback function adds/removes/modifies nodes in the list
+        that have not yet been iterated over, the changes will be iterated over
+        when LinkedList.map() reaches those nodes.
+        
+        Most importantly, this means that adding items to the end of the list
+        will add more steps during iteration, and can lead to infinite loops or
+        similar issues.
+        
+        In general, avoid modifying the original list in the given callback
+        function.
+        
+        cb - Callback function to run on each item in the list. The callback
+            will receive the following arguments:
+            
+            data - Node data for the current node in the list (NOT the Node
+                instance itself).
+            
+            index - Index of the current node in the list. This parameter is for
+                consistency with Array.map(), but is generally less performant
+                than referencing the current node object directly.
+            
+            list - The LinkedList instance being iterated over.
+            
+            node - The Node instance currently being iterated over (the value of
+                the 'data' argument is this node's data).
+        
+        thisArg - Optional value to use as 'this' in the callback function.
+        
+        Returns a new LinkedList with data returned from the callback for each
+        item from the original list. Iteration order will depend on whether or
+        not the source list is reversed, and the returned list will match the
+        source list's reversed state.
+    */
+    map(cb, thisArg) {
+        let list = new LinkedList(),
+            index = 0;
+        
+        this.reversed && list.reverse();
+        
+        this.each((v, n) => {
+            list.insert(
+                cb.call(thisArg, v, index++, this, n)
+            );
+        });
+        
+        return list;
+    }
+    
     /* Reverses the list relative to its current direction.
         
         NOTE: List insertion/removal methods do not reflect whether or not the
@@ -570,7 +622,7 @@ class LinkedList {
         item in the list.
         
         NOTE: When the 'cb' argument is provided, this method behaves similarly
-        to Array.prototype.map().
+        to Array.map().
         
         cb - Optional callback function to run on each item in the list. If
             omitted, all items will be included as-is.
