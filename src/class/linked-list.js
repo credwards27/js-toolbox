@@ -146,20 +146,55 @@ class LinkedList {
         return this._prev;
     }
     
-    /* Gets the starting node based on the list's current forward/reverse state.
+    /* Gets the starting 'head' node based on the list's current forward/reverse
+        state.
         
-        Returns the current starting cap node.
+        Returns the current starting 'head' node.
     */
     get start() {
         return this[this._start];
     }
     
-    /* Gets the ending node based on the list's current forward/reverse state.
+    /* Gets the ending 'tail' node based on the list's current forward/reverse
+        state.
         
-        Returns the current ending cap node.
+        Returns the current ending 'tail' node.
     */
     get end() {
         return this[this._end];
+    }
+    
+    /* Gets the first item data in the list.
+        
+        Returns the data from the first node in the list (after this.start).
+    */
+    get first() {
+        return this.firstNode.data;
+    }
+    
+    /* Gets the last item data in the list.
+        
+        Returns the data from the last node in the list (before this.end).
+    */
+    get last() {
+        return this.lastNode.data;
+    }
+    
+    /* Gets the first item node in the list.
+        
+        Returns the node object for the first item in the list (after
+        this.start).
+    */
+    get firstNode() {
+        return this.start.next;
+    }
+    
+    /* Gets the last item node in the list.
+        
+        Returns the node object for the last item in the list (before this.end).
+    */
+    get lastNode() {
+        return this.end.prev;
     }
     
     /* Checks whether or not the list is empty.
@@ -176,32 +211,6 @@ class LinkedList {
     */
     get reversed() {
         return "prev" === this._next;
-    }
-    
-    /* Gets the first item in the list.
-        
-        returnNode - True to return the first node in the list, false to return
-            its data. Defaults to false.
-        
-        Returns the data from the first node in the list, or the first node
-        object if returnNode is true.
-    */
-    first(returnNode) {
-        let node = this.start.next;
-        return returnNode ? node : node.data;
-    }
-    
-    /* Gets the last item in the list.
-        
-        returnNode - True to return the last node in the list, false to return
-            its data. Defaults to false.
-        
-        Returns the data from the last node in the list, or the last node
-        object if returnNode is true.
-    */
-    last(returnNode) {
-        let node = this.end.prev;
-        return returnNode ? node : node.data;
     }
     
     /* Get an item at a given index.
@@ -288,7 +297,7 @@ class LinkedList {
             return;
         }
         
-        return this.remove(this.last(true), returnNode);
+        return this.remove(this.lastNode, returnNode);
     }
     
     /* Prepends an item to the beginning of the list.
@@ -324,7 +333,7 @@ class LinkedList {
             return;
         }
         
-        return this.remove(this.first(true), returnNode);
+        return this.remove(this.firstNode, returnNode);
     }
     
     /* Inserts an item after a given node.
@@ -359,7 +368,7 @@ class LinkedList {
             throw new Error("Invalid reference node.");
         }
         
-        refNode = refNodeIsNode ? refNode : this.last(true);
+        refNode = refNodeIsNode ? refNode : this.lastNode;
         
         // Check for other errors
         switch (true) {
@@ -502,7 +511,7 @@ class LinkedList {
         Returns the list instance.
     */
     each(cb) {
-        let curr = this.first(true);
+        let curr = this.firstNode;
         
         while (curr !== this.end) {
             if (false === cb.call(this, curr.data, curr)) {
@@ -523,7 +532,7 @@ class LinkedList {
         Returns the list instance.
     */
     eachReverse(cb) {
-        let curr = this.last(true);
+        let curr = this.lastNode;
         
         while (curr !== this.start) {
             if (false === cb.call(this, curr.data, curr)) {
@@ -866,7 +875,7 @@ class Node {
         
         list.insertNode(
             this,
-            prevNode instanceof Node ? prevNode : list.last(true)
+            prevNode instanceof Node ? prevNode : list.lastNode
         );
     }
 }
